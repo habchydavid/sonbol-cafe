@@ -870,12 +870,34 @@ document.getElementById('again').addEventListener('click', function(){
 });
 
 /* ---------- open at the top ----------
-   Phones restore the last scroll position on reload, which dropped visitors
-   straight into "Finding us". Start on the walk-in unless a link asks for a section. */
+   The first thing a visitor sees is the walk-in, always. Phones restore an old
+   scroll position (sometimes late, after load) and links tapped inside the page
+   used to leave "#visit" in the address, so a reopened tab landed on "Finding us".
+   So: drop any #section from the address, keep pinning the top until the
+   visitor touches the page, and scroll in-page links without touching the URL. */
 if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
-function toTop(){ if (!location.hash) window.scrollTo(0, 0); }
+if (location.hash) history.replaceState(null, '', location.pathname + location.search);
+var touched = false;
+['touchstart','wheel','keydown','mousedown'].forEach(function(ev){
+  window.addEventListener(ev, function(){ touched = true; }, {passive:true, once:true});
+});
+function toTop(){ if (!touched) window.scrollTo(0, 0); }
 toTop();
-window.addEventListener('pageshow', function(e){ if (e.persisted) toTop(); });
+document.addEventListener('DOMContentLoaded', toTop);
+window.addEventListener('load', function(){ toTop(); setTimeout(toTop, 60); setTimeout(toTop, 300); });
+window.addEventListener('pageshow', function(e){ if (e.persisted){ touched = false; toTop(); } });
+
+document.addEventListener('click', function(e){
+  var a = e.target.closest ? e.target.closest('a[href^="#"]') : null;
+  if (!a) return;
+  var id = a.getAttribute('href').slice(1);
+  var el = id && document.getElementById(id);
+  if (!el) return;
+  e.preventDefault();
+  var smooth = !(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+  if (id === 'hero') window.scrollTo({top:0, behavior: smooth ? 'smooth' : 'auto'});
+  else el.scrollIntoView({behavior: smooth ? 'smooth' : 'auto', block:'start'});
+});
 
 /* ---------- scroll walk-in ----------
    The walk-in is 120 still frames drawn on a canvas: scrubbing an image
