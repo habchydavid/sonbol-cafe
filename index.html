@@ -150,6 +150,8 @@ html[dir="rtl"] .mark span{letter-spacing:0}
    The hero is a tall track; its inner stage sticks to the viewport while the
    video's playhead follows scroll progress, so scrolling walks you into the café. */
 #hero.scrolly{height:240vh; padding:0; border-bottom:0; overflow:visible}
+/* phones: a shorter track, so a couple of thumb swipes walk you in */
+@media (max-aspect-ratio:3/4){#hero.scrolly{height:165vh}}
 #hero.scrolly::after{content:none}
 .stage{
   position:sticky; top:0; height:100vh; height:100svh; overflow:hidden;
@@ -887,7 +889,10 @@ document.getElementById('again').addEventListener('click', function(){
 
   var COUNT = 120;
   var frames = new Array(COUNT);
-  function url(i){ return 'assets/frames/f' + ('00' + (i + 1)).slice(-3) + '.webp'; }
+  /* tall screens get frames cropped to the centre: they only ever show that part, at under half the weight */
+  var tall = window.innerWidth / window.innerHeight < 0.75;
+  var dir = tall ? 'assets/frames-m/f' : 'assets/frames/f';
+  function url(i){ return dir + ('00' + (i + 1)).slice(-3) + '.webp'; }
 
   function clamp(v){ return v < 0 ? 0 : v > 1 ? 1 : v; }
   function ramp(p, a, b){ return clamp((p - a) / (b - a)); }
@@ -946,7 +951,7 @@ document.getElementById('again').addEventListener('click', function(){
   var shown = 0;
   function frame(){
     var p = reduced ? 0 : progress();
-    shown += (p - shown) * 0.35;
+    shown += (p - shown) * (tall ? 0.5 : 0.35);
     if (Math.abs(p - shown) < 0.0005) shown = p;
     draw(Math.round(shown * (COUNT - 1)));
 
