@@ -195,14 +195,12 @@ html[dir="rtl"] .step-in{font-family:var(--arabic); font-style:normal}
 html[dir="rtl"] .scroll-cue{letter-spacing:0}
 .scroll-cue i{width:1px; height:28px; background:linear-gradient(rgba(246,240,228,.9),transparent); animation:cue 1.8s ease-in-out infinite}
 @keyframes cue{0%{transform:scaleY(0); transform-origin:top}50%{transform:scaleY(1); transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0); transform-origin:bottom}}
-.progress{position:absolute; left:0; bottom:0; height:2px; width:100%; background:#E7B65A; transform-origin:left; transform:scaleX(0)}
-html[dir="rtl"] .progress{transform-origin:right}
 
 /* reduced motion: no scrubbing, a normal one-screen hero over the first frame */
 @media (prefers-reduced-motion:reduce){
   #hero.scrolly{height:auto}
   .stage{position:relative; min-height:100svh}
-  .scroll-cue,.step-in,.progress{display:none}
+  .scroll-cue,.step-in{display:none}
 }
 
 /* ---------- stalk divider ---------- */
@@ -379,7 +377,6 @@ footer{border-top:1px solid var(--line); padding-block:34px; font-size:.84rem; c
   </div>
   <p class="step-in" id="stepIn" data-i18n="heroStep">Come in, your table is ready.</p>
   <div class="scroll-cue" id="cue" aria-hidden="true"><span data-i18n="heroScroll">Scroll</span><i></i></div>
-  <div class="progress" id="prog" aria-hidden="true"></div>
   </div>
 </section>
 
@@ -872,6 +869,14 @@ document.getElementById('again').addEventListener('click', function(){
   form.scrollIntoView({behavior:'smooth', block:'center'});
 });
 
+/* ---------- open at the top ----------
+   Phones restore the last scroll position on reload, which dropped visitors
+   straight into "Finding us". Start on the walk-in unless a link asks for a section. */
+if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+function toTop(){ if (!location.hash) window.scrollTo(0, 0); }
+toTop();
+window.addEventListener('pageshow', function(e){ if (e.persisted) toTop(); });
+
 /* ---------- scroll walk-in ----------
    The walk-in is 120 still frames drawn on a canvas: scrubbing an image
    sequence is instant on every browser, where seeking a <video> stutters.
@@ -884,7 +889,6 @@ document.getElementById('again').addEventListener('click', function(){
   var heroIn = document.getElementById('heroIn');
   var stepIn = document.getElementById('stepIn');
   var cue = document.getElementById('cue');
-  var prog = document.getElementById('prog');
   var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   var COUNT = 120;
@@ -967,7 +971,6 @@ document.getElementById('again').addEventListener('click', function(){
       stepIn.style.opacity = inn;
       stepIn.style.transform = 'translateY(' + ((1 - inn) * 24) + 'px)';
       cue.style.opacity = 1 - ramp(p, 0, 0.06);
-      prog.style.transform = 'scaleX(' + p + ')';
     }
     requestAnimationFrame(frame);
   }
