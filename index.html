@@ -151,6 +151,67 @@ html[dir="rtl"] .mark span{letter-spacing:0}
 html[dir="rtl"] .plate-in small{letter-spacing:0}
 @media (max-width:820px){.plate{max-width:280px; margin-inline:auto}}
 
+/* ---------- scroll video (hero) ----------
+   The hero is a tall track; its inner stage sticks to the viewport while the
+   video's playhead follows scroll progress, so scrolling walks you into the café. */
+#hero.scrolly{height:300vh; padding:0; border-bottom:0; overflow:visible}
+#hero.scrolly::after{content:none}
+.stage{
+  position:sticky; top:0; height:100vh; height:100svh; overflow:hidden;
+  display:flex; flex-direction:column; justify-content:center;
+  background:#17150F;
+}
+.stage video{position:absolute; inset:0; width:100%; height:100%; object-fit:cover}
+.stage .shade{
+  position:absolute; inset:0; pointer-events:none;
+  background:
+    linear-gradient(90deg, rgba(20,16,10,.78) 0%, rgba(20,16,10,.45) 48%, rgba(20,16,10,.10) 100%),
+    linear-gradient(0deg, rgba(20,16,10,.55) 0%, transparent 35%);
+}
+@media (max-width:820px){
+  .stage .shade{background:linear-gradient(0deg, rgba(20,16,10,.85) 0%, rgba(20,16,10,.45) 55%, rgba(20,16,10,.25) 100%)}
+  .stage{justify-content:flex-end; padding-bottom:56px}
+}
+.stage .hero-in{width:100%; will-change:opacity,transform}
+.stage .hero{color:#F6F0E4}
+.stage .hero .lede{color:rgba(246,240,228,.82)}
+.stage .hero h1 em{color:#E7B65A}
+.stage .eyebrow{color:#E7B65A}
+.stage .btn-line{border-color:#F6F0E4; color:#F6F0E4}
+.stage .btn-line:hover{background:#F6F0E4; color:#241F19}
+.stage .badge-row{color:rgba(246,240,228,.75)}
+.stage .badge-row b{color:#F6F0E4}
+.stage .plate{background:rgba(246,240,228,.08); border-color:rgba(246,240,228,.35); backdrop-filter:blur(6px); box-shadow:none}
+.stage .plate-in{background:rgba(20,16,10,.55); border-color:rgba(246,240,228,.3)}
+.stage .plate-in small{color:rgba(246,240,228,.75)}
+.stage .plate-in .score{color:#E7B65A}
+@media (max-width:820px){.stage .plate{display:none}}
+
+.step-in{
+  position:absolute; inset-inline:0; bottom:14vh; text-align:center; pointer-events:none;
+  font-family:var(--display); font-style:italic; font-weight:600; color:#F6F0E4;
+  font-size:clamp(2rem,6vw,4rem); text-shadow:0 2px 24px rgba(0,0,0,.5);
+  opacity:0; will-change:opacity,transform;
+}
+html[dir="rtl"] .step-in{font-family:var(--arabic); font-style:normal}
+.scroll-cue{
+  position:absolute; left:50%; bottom:18px; transform:translateX(-50%);
+  display:grid; justify-items:center; gap:6px; pointer-events:none;
+  font-size:.66rem; letter-spacing:.2em; text-transform:uppercase; color:rgba(246,240,228,.8);
+}
+html[dir="rtl"] .scroll-cue{letter-spacing:0}
+.scroll-cue i{width:1px; height:28px; background:linear-gradient(rgba(246,240,228,.9),transparent); animation:cue 1.8s ease-in-out infinite}
+@keyframes cue{0%{transform:scaleY(0); transform-origin:top}50%{transform:scaleY(1); transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0); transform-origin:bottom}}
+.progress{position:absolute; left:0; bottom:0; height:2px; width:100%; background:#E7B65A; transform-origin:left; transform:scaleX(0)}
+html[dir="rtl"] .progress{transform-origin:right}
+
+/* reduced motion: no scrubbing, a normal one-screen hero over the first frame */
+@media (prefers-reduced-motion:reduce){
+  #hero.scrolly{height:auto}
+  .stage{position:relative; min-height:100svh}
+  .scroll-cue,.step-in,.progress{display:none}
+}
+
 /* ---------- stalk divider ---------- */
 .stalk{display:flex; align-items:center; gap:14px; color:var(--line)}
 .stalk::before,.stalk::after{content:""; height:1px; background:currentColor; flex:1}
@@ -304,8 +365,11 @@ footer{border-top:1px solid var(--line); padding-block:34px; font-size:.84rem; c
 </header>
 
 <main>
-<section id="hero">
-  <div class="wrap hero-in">
+<section id="hero" class="scrolly">
+  <div class="stage">
+  <video id="walkin" muted playsinline preload="auto" poster="assets/sonbol-poster.jpg" aria-hidden="true"></video>
+  <div class="shade"></div>
+  <div class="wrap hero-in" id="heroIn">
     <div class="hero">
       <span class="eyebrow" data-i18n="heroEyebrow">Bekaa Valley · Baalbek–Hermel</span>
       <h1><span data-i18n="heroTitle1">A table in the middle of</span> <em data-i18n="heroTitle2">the village</em></h1>
@@ -326,6 +390,10 @@ footer{border-top:1px solid var(--line); padding-block:34px; font-size:.84rem; c
         <small data-i18n="plateCap">Google rating</small>
       </div>
     </div>
+  </div>
+  <p class="step-in" id="stepIn" data-i18n="heroStep">Come in, your table is ready.</p>
+  <div class="scroll-cue" id="cue" aria-hidden="true"><span data-i18n="heroScroll">Scroll</span><i></i></div>
+  <div class="progress" id="prog" aria-hidden="true"></div>
   </div>
 </section>
 
@@ -609,6 +677,7 @@ var T = {
     badgeOpen:'<b>Ouvert tous les jours</b> · du déjeuner jusqu’à tard',
     badgeGroups:'<b>Groupes bienvenus</b> · formule dès 4 personnes',
     plateCap:'Note Google',
+    heroStep:'Entrez, votre table vous attend.', heroScroll:'Défiler',
     storyEyebrow:'La maison', storyTitle:'Nommé d’après l’épi de blé',
     storyLede:'Le Sonbol Cafe est au centre de Deir El Ahmar, bourg agricole à 22 km au nord-ouest de Baalbek, là où la plaine rejoint les collines. Tout ce que nous cuisinons vient de cette plaine.',
     s1k:'La cuisine', s1t:'Libanaise, grande ouverte',
@@ -650,6 +719,7 @@ var T = {
     badgeOpen:'<b>مفتوح يومياً</b> · من الغداء حتى وقت متأخر',
     badgeGroups:'<b>أهلاً بالمجموعات</b> · قائمة محددة من ٤ أشخاص',
     plateCap:'تقييم غوغل',
+    heroStep:'تفضّلوا، طاولتكم جاهزة.', heroScroll:'مرّر للأسفل',
     storyEyebrow:'عن المطعم', storyTitle:'سُمّي على سنبلة القمح',
     storyLede:'مقهى سنبل في وسط دير الأحمر، بلدة زراعية على بعد ٢٢ كلم شمال غرب بعلبك، حيث ينتهي السهل وتبدأ التلال. كل ما نطبخه من هذا السهل.',
     s1k:'المطبخ', s1t:'لبناني، وبابه واسع',
@@ -819,6 +889,64 @@ document.getElementById('again').addEventListener('click', function(){
   confirmBox.hidden = true; form.hidden = false;
   form.scrollIntoView({behavior:'smooth', block:'center'});
 });
+
+/* ---------- scroll video ---------- */
+(function(){
+  var hero = document.getElementById('hero');
+  var video = document.getElementById('walkin');
+  var heroIn = document.getElementById('heroIn');
+  var stepIn = document.getElementById('stepIn');
+  var cue = document.getElementById('cue');
+  var prog = document.getElementById('prog');
+  var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduced) return; /* poster frame only */
+
+  /* H.264 everywhere it plays (smallest, every frame a keyframe); VP9 for browsers without it. */
+  var mp4 = video.canPlayType('video/mp4; codecs="avc1.640028"');
+  var src = !mp4 ? 'assets/sonbol-walkin.webm'
+          : window.innerWidth < 900 ? 'assets/sonbol-walkin-480.mp4' : 'assets/sonbol-walkin.mp4';
+  /* Loading the whole file up front makes seeking instant and reliable on mobile Safari. */
+  if (window.fetch && window.URL && URL.createObjectURL){
+    fetch(src).then(function(r){ if (!r.ok) throw 0; return r.blob(); })
+      .then(function(b){ video.src = URL.createObjectURL(b); })
+      .catch(function(){ video.src = src; });
+  } else { video.src = src; }
+
+  function clamp(v){ return v < 0 ? 0 : v > 1 ? 1 : v; }
+  function ramp(p, a, b){ return clamp((p - a) / (b - a)); }
+
+  var shown = 0;   /* eased playhead, 0..1 */
+  function progress(){
+    var r = hero.getBoundingClientRect();
+    var track = r.height - window.innerHeight;
+    return track > 0 ? clamp(-r.top / track) : 0;
+  }
+
+  function frame(){
+    var p = progress();
+    shown += (p - shown) * 0.18;
+    if (Math.abs(p - shown) < 0.0005) shown = p;
+
+    var d = video.duration;
+    if (d && !video.seeking){
+      var t = shown * (d - 0.05);
+      if (Math.abs(video.currentTime - t) > 1/48) video.currentTime = t;
+    }
+
+    var out = ramp(p, 0, 0.3);
+    heroIn.style.opacity = 1 - out;
+    heroIn.style.transform = 'translateY(' + (-out * 50) + 'px)';
+    heroIn.style.visibility = out >= 1 ? 'hidden' : 'visible';
+    var inn = ramp(p, 0.62, 0.85);
+    stepIn.style.opacity = inn;
+    stepIn.style.transform = 'translateY(' + ((1 - inn) * 24) + 'px)';
+    cue.style.opacity = 1 - ramp(p, 0, 0.06);
+    prog.style.transform = 'scaleX(' + p + ')';
+
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+})();
 
 /* ---------- boot ---------- */
 document.getElementById('yr').textContent = new Date().getFullYear();
