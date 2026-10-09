@@ -1,8 +1,14 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 72px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><title>Sonbol Cafe Deir El Ahmar</title>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Sonbol Cafe Deir El Ahmar</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Vollkorn:ital,wght@0,500;0,600;0,700;1,500&family=Karla:wght@400;500;600;700&family=Noto+Kufi+Arabic:wght@400;500;700&display=swap">
+<!-- first frame of the walk-in: the first thing on screen, so fetch it before anything else -->
+<link rel="preload" as="image" href="assets/frames/f001.webp" media="not all and (max-aspect-ratio: 3/4)" fetchpriority="high">
+<link rel="preload" as="image" href="assets/frames-m/f001.webp" media="(max-aspect-ratio: 3/4)" fetchpriority="high">
+<!-- fonts load without blocking the first paint (display=swap shows fallback text meanwhile);
+     only the weights the page uses: Vollkorn 600/700/600 italic, Karla 400/600/700, Kufi 400/700 -->
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Vollkorn:ital,wght@0,600;0,700;1,600&amp;family=Karla:wght@400;600;700&amp;family=Noto+Kufi+Arabic:wght@400;700&amp;display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Vollkorn:ital,wght@0,600;0,700;1,600&amp;family=Karla:wght@400;600;700&amp;family=Noto+Kufi+Arabic:wght@400;700&amp;display=swap"></noscript>
 </head>
 <body>
 
@@ -47,6 +53,9 @@
 }
 
 *{box-sizing:border-box}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 72px)}
+img{max-width:100%}
+[hidden]{display:none!important}
 body{
   background:var(--bg); color:var(--ink);
   font-family:var(--body); font-size:16px; line-height:1.6;
@@ -54,7 +63,6 @@ body{
   -webkit-font-smoothing:antialiased;
 }
 html[dir="rtl"] body{font-family:var(--arabic)}
-html[dir="rtl"] .display{font-family:var(--arabic)}
 h1,h2,h3,h4{font-family:var(--display); font-weight:600; text-wrap:balance; margin:0; line-height:1.15}
 html[dir="rtl"] h1,html[dir="rtl"] h2,html[dir="rtl"] h3,html[dir="rtl"] h4{font-family:var(--arabic); font-weight:700}
 p{margin:0}
@@ -63,7 +71,6 @@ button{font-family:inherit; font-size:inherit; color:inherit; cursor:pointer}
 :focus-visible{outline:2px solid var(--wheat); outline-offset:3px; border-radius:2px}
 
 .wrap{width:100%; max-width:1080px; margin-inline:auto; padding-inline:20px}
-.narrow{max-width:680px}
 .eyebrow{
   font-size:.72rem; letter-spacing:.18em; text-transform:uppercase;
   font-weight:700; color:var(--wheat);
@@ -116,19 +123,8 @@ html[dir="rtl"] .mark span{letter-spacing:0}
 .langs button[aria-pressed="true"]{background:var(--wheat); color:#1B1710}
 
 /* ---------- hero ---------- */
-#hero{position:relative; overflow:hidden; border-bottom:1px solid var(--line)}
-#hero::after{
-  content:""; position:absolute; inset:0; pointer-events:none;
-  background:
-    radial-gradient(70% 55% at 78% 8%, color-mix(in srgb,var(--wheat) 20%,transparent), transparent 70%),
-    radial-gradient(60% 50% at 6% 92%, color-mix(in srgb,var(--vine) 18%,transparent), transparent 72%);
-}
-.hero-in{
-  position:relative; z-index:1;
-  display:grid; grid-template-columns:1.15fr .85fr; gap:40px; align-items:center;
-  padding-block:clamp(48px,7vw,84px);
-}
-@media (max-width:820px){.hero-in{grid-template-columns:1fr; gap:32px; padding-block:40px}}
+.hero-in{position:relative; z-index:1; padding-block:96px clamp(48px,7vw,84px)}
+@media (max-width:820px){.hero-in{padding-bottom:40px}}
 .hero h1{font-size:clamp(2.6rem,7vw,4.6rem); letter-spacing:-.015em; margin-block:14px 18px}
 .hero h1 em{font-style:italic; color:var(--ember)}
 .hero .lede{font-size:clamp(1rem,1.9vw,1.15rem); color:var(--muted); max-width:46ch}
@@ -149,17 +145,16 @@ html[dir="rtl"] .mark span{letter-spacing:0}
 /* ---------- scroll video (hero) ----------
    The hero is a tall track; its inner stage sticks to the viewport while the
    video's playhead follows scroll progress, so scrolling walks you into the café. */
-#hero.scrolly{height:240vh; padding:0; border-bottom:0; overflow:visible}
+#hero.scrolly{position:relative; height:240vh; padding:0}
 /* phones: a shorter track, so a couple of thumb swipes walk you in */
 @media (max-aspect-ratio:3/4){#hero.scrolly{height:165vh}}
-#hero.scrolly::after{content:none}
 .stage{
   position:sticky; top:0; height:100vh; height:100svh; overflow:hidden;
   display:flex; flex-direction:column; justify-content:center;
-  background:#17150F url(assets/sonbol-poster.jpg) center/cover no-repeat;
+  background:#17150F url(assets/frames/f001.webp) center/cover no-repeat;
 }
+@media (max-aspect-ratio:3/4){.stage{background-image:url(assets/frames-m/f001.webp)}}
 .stage canvas{position:absolute; inset:0; width:100%; height:100%; display:block}
-.stage .hero-in{grid-template-columns:1fr; padding-top:96px}
 .stage .shade{
   position:absolute; inset:0; pointer-events:none;
   background:
@@ -250,7 +245,6 @@ section{padding-block:clamp(48px,6vw,80px)}
   padding:13px 4px; border-bottom:1px dashed var(--line);
 }
 .items .nm{font-weight:600; min-width:0}
-.items .nm small{display:block; font-weight:400; font-size:.78rem; color:var(--muted); font-style:italic; margin-top:1px}
 .items .dots{flex:1; border-bottom:1px dotted var(--line); min-width:18px; transform:translateY(-4px)}
 .items .pr{
   font-family:var(--display); font-weight:700; font-size:1.02rem; color:var(--ember);
@@ -916,7 +910,7 @@ document.addEventListener('click', function(e){
   var COUNT = 120;
   var frames = new Array(COUNT);
   /* tall screens get frames cropped to the centre: they only ever show that part, at under half the weight */
-  var tall = window.innerWidth / window.innerHeight < 0.75;
+  var tall = window.matchMedia('(max-aspect-ratio: 3/4)').matches;   /* must match the preload media queries */
   var dir = tall ? 'assets/frames-m/f' : 'assets/frames/f';
   function url(i){ return dir + ('00' + (i + 1)).slice(-3) + '.webp'; }
 
@@ -960,22 +954,36 @@ document.addEventListener('click', function(e){
   });
   if (!seen[COUNT - 1]) order.push(COUNT - 1);
   if (reduced) order = [0];
-  var next = 0;
-  function load(){
-    if (next >= order.length) return;
-    var i = order[next++], img = new Image();
+  var next = 1;
+  function fetchFrame(i, low, then){
+    var img = new Image();
+    if (low) img.fetchPriority = 'low';
     frames[i] = {img:img, ok:false};
-    img.onload = function(){ frames[i].ok = true; drawn = -1; load(); };
-    img.onerror = function(){ load(); };
+    img.onload = function(){ frames[i].ok = true; drawn = -1; kick(); then(); };
+    img.onerror = then;
     img.src = url(i);
   }
-  for (var c = 0; c < 6; c++) load();   /* six requests in flight */
+  function load(){
+    if (next >= order.length) return;
+    fetchFrame(order[next++], true, load);
+  }
+  /* Frame 0 is what the visitor sees first and is preloaded in <head>. The rest
+     wait for the load event: images requested before it hold it back (it was
+     waiting for all 120 frames) and compete with the first frame and fonts. */
+  fetchFrame(0, false, function(){});
+  function startRest(){ for (var c = 0; c < 6; c++) load(); }   /* six requests in flight */
+  if (document.readyState === 'complete') startRest();
+  else window.addEventListener('load', startRest);
 
+  var queued = false;
+  function kick(){ if (!queued){ queued = true; requestAnimationFrame(frame); } }
   size();
-  window.addEventListener('resize', size);
+  window.addEventListener('resize', function(){ size(); kick(); });
+  window.addEventListener('scroll', kick, {passive:true});
 
   var shown = 0;
   function frame(){
+    queued = false;
     var p = reduced ? 0 : progress();
     shown += (p - shown) * (tall ? 0.5 : 0.35);
     if (Math.abs(p - shown) < 0.0005) shown = p;
@@ -994,9 +1002,9 @@ document.addEventListener('click', function(e){
       stepIn.style.transform = 'translateY(' + ((1 - inn) * 24) + 'px)';
       cue.style.opacity = 1 - ramp(p, 0, 0.06);
     }
-    requestAnimationFrame(frame);
+    if (shown !== p) kick();   /* keep easing until the playhead settles */
   }
-  requestAnimationFrame(frame);
+  kick();
 })();
 
 /* ---------- boot ---------- */
