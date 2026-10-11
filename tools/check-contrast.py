@@ -1,18 +1,21 @@
 #!/usr/bin/env python3
-"""WCAG AA contrast check for every theme in index.html.
+"""WCAG AA contrast check for every theme in assets/theme.css.
 
 Usage:  python3 tools/check-contrast.py
 
 Reads the palette and every theme block (:root/.theme-light, .theme-<name>),
 resolves the semantic tokens and checks each foreground/background pairing the
 page uses. Exits non-zero if any pairing fails, or if the OS-dark media block
-has drifted from .theme-dark. New themes are picked up automatically.
+has drifted from .theme-dark, or if index.html's inline copy is out of date.
+New themes are picked up automatically.
 """
 import re
 import sys
 from pathlib import Path
 
-HTML = Path(__file__).resolve().parent.parent / "index.html"
+import sync_theme  # same folder
+
+HTML = Path(__file__).resolve().parent.parent / "assets" / "theme.css"
 
 TEXT, UI = 4.5, 3.0   # WCAG 1.4.3 normal text; 1.4.11 controls, focus, states
 
@@ -100,6 +103,12 @@ def main():
             failed += 1
         else:
             print("\nok    OS-dark block mirrors .theme-dark")
+
+    if sync_theme.in_sync():
+        print("ok    index.html carries the current theme.css")
+    else:
+        print("FAIL  index.html's inline theme is out of date: run python3 tools/sync_theme.py")
+        failed += 1
 
     print(f"\n{'all pairings pass' if not failed else f'{failed} failing'}")
     return 1 if failed else 0
