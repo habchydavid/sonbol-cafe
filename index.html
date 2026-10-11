@@ -354,18 +354,6 @@ section{padding-block:clamp(48px,6vw,80px)}
   font-variant-numeric:tabular-nums; flex:none;
 }
 
-/* formule */
-.formule{
-  margin-top:40px; background:var(--color-surface-alt); border:1px solid var(--color-border);
-  border-radius:3px; padding:clamp(22px,4vw,36px);
-}
-.formule-head{display:flex; flex-wrap:wrap; align-items:baseline; gap:10px 20px; margin-bottom:6px}
-.formule-head h3{font-size:clamp(1.4rem,3vw,1.9rem)}
-.formule-head .price{font-family:var(--display); font-weight:700; color:var(--color-text-emphasis); font-size:1.3rem; font-variant-numeric:tabular-nums}
-.formule > p{color:var(--color-text-muted); font-size:.92rem; margin-bottom:22px}
-.spread{list-style:none; margin:0; padding:0; display:grid; grid-template-columns:repeat(auto-fill,minmax(160px,1fr)); gap:10px 20px}
-.spread li{display:flex; align-items:center; gap:9px; font-size:.9rem; min-width:0}
-.spread li::before{content:""; width:5px; height:5px; border-radius:50%; background:var(--color-accent); flex:none}
 
 /* ---------- booking ---------- */
 .book-grid{display:grid; grid-template-columns:1fr 1fr; gap:44px; align-items:start}
@@ -472,7 +460,7 @@ footer{border-top:1px solid var(--color-border); padding-block:34px; font-size:.
       </div>
       <div class="badge-row">
         <span data-i18n="badgeOpen"><b>Open daily</b> · lunch through late</span>
-        <span data-i18n="badgeGroups"><b>Groups welcome</b> · set menu for 4+</span>
+        <span data-i18n="badgeGroups"><b>Groups welcome</b> · long tables for families</span>
       </div>
     </div>
   </div>
@@ -485,15 +473,6 @@ footer{border-top:1px solid var(--color-border); padding-block:34px; font-size:.
   <div class="wrap">
     <div class="menu-tabs" role="tablist" id="tabs"></div>
     <div id="panels"></div>
-
-    <div class="formule">
-      <div class="formule-head">
-        <h3 data-i18n="formuleTitle">La Formule</h3>
-        <span class="price">$60 <span style="font-weight:400;color:var(--color-text-muted);font-size:.85rem" data-i18n="formuleFor">for 4 · $15 per person</span></span>
-      </div>
-      <p data-i18n="formuleLede">A full village spread brought to the table, with tea or a glass of wine to finish.</p>
-      <ul class="spread" id="spread"></ul>
-    </div>
   </div>
 </section>
 
@@ -503,7 +482,7 @@ footer{border-top:1px solid var(--color-border); padding-block:34px; font-size:.
       <div>
         <span class="eyebrow" data-i18n="bookEyebrow">Reservations</span>
         <h2 style="font-size:clamp(1.8rem,4vw,2.6rem);margin-block:10px 14px" data-i18n="bookTitle">Hold us a table</h2>
-        <p style="color:var(--color-text-muted)" data-i18n="bookLede">Fill this in and we'll confirm by phone or WhatsApp. For parties over 10, or for La Formule, give us a day's notice if you can.</p>
+        <p style="color:var(--color-text-muted)" data-i18n="bookLede">Fill this in and we'll confirm by phone or WhatsApp. For parties over 10, give us a day's notice if you can.</p>
         <div style="margin-top:26px" class="visit-row">
           <span class="k" data-i18n="bookPhoneK">Or call us directly</span>
           <div class="copyline">
@@ -548,7 +527,6 @@ footer{border-top:1px solid var(--color-border); padding-block:34px; font-size:.
             <select id="rarea" name="area">
               <option value="inside" data-i18n="optInside">Inside</option>
               <option value="arguileh" data-i18n="optArg">Arguileh section</option>
-              <option value="formule" data-i18n="optFormule">La Formule (set menu)</option>
             </select>
           </div>
         </div>
@@ -721,20 +699,6 @@ var MENU = [
     ]}
 ];
 
-var SPREAD = [
-  {en:'Labneh',fr:'Labneh',ar:'لبنة'},
-  {en:'Jebneh baladiyeh',fr:'Jebneh baladiyeh',ar:'جبنة بلدية'},
-  {en:'Mortadella with olives',fr:'Mortadelle aux olives',ar:'مرتديلا بالزيتون'},
-  {en:'Tolyene',fr:'Tolyene',ar:'طلياني'},
-  {en:'Ach2awen',fr:'Ach2awen',ar:'أشقوان'},
-  {en:'Salame',fr:'Salami',ar:'سلامي'},
-  {en:'Olives',fr:'Olives',ar:'زيتون'},
-  {en:'Eggs with awarma',fr:'Œufs à l’awarma',ar:'بيض بقاورما'},
-  {en:'Jat khodra',fr:'Crudités',ar:'جاط خضرة'},
-  {en:'Brik',fr:'Brik',ar:'بريك'},
-  {en:'Tea or wine',fr:'Thé ou vin',ar:'شاي أو نبيذ'}
-];
-
 var T = {
   en:{},
   fr:{
@@ -745,16 +709,14 @@ var T = {
     heroLede:'Pizza au feu de bois, poulet au charbon, mezzé et narguilé — au centre de Deir El Ahmar, entre les vignes et les cèdres.',
     ctaBook:'Réserver une table', ctaMenu:'Voir la carte',
     badgeOpen:'<b>Ouvert tous les jours</b> · du déjeuner jusqu’à tard',
-    badgeGroups:'<b>Groupes bienvenus</b> · formule dès 4 personnes',
+    badgeGroups:'<b>Groupes bienvenus</b> · grandes tablées en famille',
     themeLabel:'Mode sombre',
     heroStep:'Entrez, votre table vous attend.', heroScroll:'Défiler',
-    formuleTitle:'La Formule', formuleFor:'pour 4 · 15 $ par personne',
-    formuleLede:'Une table de village complète, servie d’un coup, avec thé ou verre de vin pour finir.',
     bookEyebrow:'Réservations', bookTitle:'Gardez-nous une table',
-    bookLede:'Remplissez ceci et nous confirmons par téléphone ou WhatsApp. Pour plus de 10 personnes, ou pour La Formule, prévenez-nous d’un jour si possible.',
+    bookLede:'Remplissez ceci et nous confirmons par téléphone ou WhatsApp. Pour plus de 10 personnes, prévenez-nous d’un jour si possible.',
     bookPhoneK:'Ou appelez-nous directement', copy:'Copier',
     fName:'Nom', fPhone:'Téléphone', fDate:'Date', fTime:'Heure', fGuests:'Couverts', fArea:'Placement',
-    optInside:'En salle', optArg:'Espace narguilé', optFormule:'La Formule',
+    optInside:'En salle', optArg:'Espace narguilé',
     fNote:'Ce que nous devrions savoir', fSubmit:'Demander cette table',
     fFoot:'Une demande n’est pas une confirmation — nous revenons vers vous pour la valider.',
     okTitle:'Votre demande est prête', okLede:'Envoyez-la sur WhatsApp, ou copiez les détails et appelez. Nous confirmerons la table.',
@@ -776,16 +738,14 @@ var T = {
     heroLede:'بيتزا على الحطب، فروج على الفحم، مقبلات وأرجيلة — في وسط دير الأحمر، بين الكروم والأرز.',
     ctaBook:'احجز طاولة', ctaMenu:'القائمة',
     badgeOpen:'<b>مفتوح يومياً</b> · من الغداء حتى وقت متأخر',
-    badgeGroups:'<b>أهلاً بالمجموعات</b> · قائمة محددة من ٤ أشخاص',
+    badgeGroups:'<b>أهلاً بالمجموعات</b> · طاولات طويلة للعائلات',
     themeLabel:'الوضع الداكن',
     heroStep:'تفضّلوا، طاولتكم جاهزة.', heroScroll:'مرّر للأسفل',
-    formuleTitle:'الفورمول', formuleFor:'لأربعة أشخاص · ١٥$ للشخص',
-    formuleLede:'سفرة ضيعة كاملة تُقدَّم على الطاولة، مع شاي أو كأس نبيذ في الختام.',
     bookEyebrow:'الحجوزات', bookTitle:'احجز طاولتك',
-    bookLede:'املأ هذه الخانات ونؤكد لك عبر الهاتف أو واتساب. للمجموعات فوق العشرة، أو للفورمول، أعلمنا قبل يوم إن أمكن.',
+    bookLede:'املأ هذه الخانات ونؤكد لك عبر الهاتف أو واتساب. للمجموعات فوق العشرة، أعلمنا قبل يوم إن أمكن.',
     bookPhoneK:'أو اتصل بنا مباشرة', copy:'نسخ',
     fName:'الاسم', fPhone:'الهاتف', fDate:'التاريخ', fTime:'الوقت', fGuests:'عدد الأشخاص', fArea:'الجلسة',
-    optInside:'في الداخل', optArg:'قسم الأرجيلة', optFormule:'الفورمول',
+    optInside:'في الداخل', optArg:'قسم الأرجيلة',
     fNote:'ملاحظات', fSubmit:'اطلب هذه الطاولة',
     fFoot:'الطلب ليس تأكيداً — سنعاود الاتصال بك لتثبيت الحجز.',
     okTitle:'طلبك جاهز للإرسال', okLede:'أرسله عبر واتساب، أو انسخ التفاصيل واتصل. سنؤكد لك الطاولة.',
@@ -862,8 +822,6 @@ function renderMenu(){
     panels.appendChild(p);
   });
 
-  var sp = document.getElementById('spread');
-  sp.innerHTML = SPREAD.map(function(s){ return '<li>'+s[lang]+'</li>'; }).join('');
 }
 
 function selectTab(id){
@@ -926,8 +884,7 @@ var LBL = {
 };
 var AREA = {
   inside:{en:'Inside',fr:'En salle',ar:'في الداخل'},
-  arguileh:{en:'Arguileh section',fr:'Espace narguilé',ar:'قسم الأرجيلة'},
-  formule:{en:'La Formule (set menu)',fr:'La Formule',ar:'الفورمول'}
+  arguileh:{en:'Arguileh section',fr:'Espace narguilé',ar:'قسم الأرجيلة'}
 };
 
 var form = document.getElementById('resform');
