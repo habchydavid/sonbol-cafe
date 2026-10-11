@@ -540,7 +540,7 @@ html[dir="rtl"] .foot-h{letter-spacing:0; font-family:var(--arabic)}
             <label for="rarea" data-i18n="fArea">Seating</label>
             <select id="rarea" name="area">
               <option value="inside" data-i18n="optInside">Inside</option>
-              <option value="arguileh" data-i18n="optArg">Arguileh section</option>
+              <option value="terrace" data-i18n="optTerrace">Terrace</option>
             </select>
           </div>
         </div>
@@ -755,7 +755,7 @@ var T = {
     bookLede:'Remplissez ceci et nous confirmons par téléphone ou WhatsApp. Pour plus de 10 personnes, prévenez-nous d’un jour si possible.',
     bookPhoneK:'Ou appelez-nous directement', copy:'Copier',
     fName:'Nom', fPhone:'Téléphone', fDate:'Date', fTime:'Heure', fGuests:'Couverts', fArea:'Placement',
-    optInside:'En salle', optArg:'Espace narguilé',
+    optInside:'En salle', optTerrace:'Terrasse',
     fNote:'Ce que nous devrions savoir', fSubmit:'Demander cette table',
     fFoot:'Une demande n’est pas une confirmation — nous revenons vers vous pour la valider.',
     okTitle:'Votre demande est prête', okLede:'Envoyez-la sur WhatsApp, ou copiez les détails et appelez. Nous confirmerons la table.',
@@ -786,7 +786,7 @@ var T = {
     bookLede:'املأ هذه الخانات ونؤكد لك عبر الهاتف أو واتساب. للمجموعات فوق العشرة، أعلمنا قبل يوم إن أمكن.',
     bookPhoneK:'أو اتصل بنا مباشرة', copy:'نسخ',
     fName:'الاسم', fPhone:'الهاتف', fDate:'التاريخ', fTime:'الوقت', fGuests:'عدد الأشخاص', fArea:'الجلسة',
-    optInside:'في الداخل', optArg:'قسم الأرجيلة',
+    optInside:'في الداخل', optTerrace:'التراس',
     fNote:'ملاحظات', fSubmit:'اطلب هذه الطاولة',
     fFoot:'الطلب ليس تأكيداً — سنعاود الاتصال بك لتثبيت الحجز.',
     okTitle:'طلبك جاهز للإرسال', okLede:'أرسله عبر واتساب، أو انسخ التفاصيل واتصل. سنؤكد لك الطاولة.',
@@ -927,7 +927,7 @@ var LBL = {
 };
 var AREA = {
   inside:{en:'Inside',fr:'En salle',ar:'في الداخل'},
-  arguileh:{en:'Arguileh section',fr:'Espace narguilé',ar:'قسم الأرجيلة'}
+  terrace:{en:'Terrace',fr:'Terrasse',ar:'التراس'}
 };
 
 var form = document.getElementById('resform');

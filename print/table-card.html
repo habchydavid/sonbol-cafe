@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Table card · Sonbol Cafe</title>
+<!-- Printable table card. Open in a browser and print (no margins, 100% scale):
+       table-card.html          one A6 card (105 x 148 mm)
+       table-card.html?sheet=a4 four cards on A4, with cut lines
+     The QR image is sonbol-qr.svg; regenerate it with tools/make_qr.py. -->
+<link rel="stylesheet" href="../assets/theme.css">
+<style>
+  @page{size:105mm 148mm; margin:0}   /* A6; the A6 keyword is not supported everywhere */
+  :root{color-scheme:light}
+  *{box-sizing:border-box}
+  html,body{margin:0; background:#fff}
+  body{font-family:var(--body); color:var(--palette-ink); -webkit-print-color-adjust:exact; print-color-adjust:exact}
+
+  .sheet{display:flex; flex-wrap:wrap; width:105mm}
+  .card{
+    width:105mm; height:148mm; padding:11mm 10mm 9mm;
+    display:flex; flex-direction:column; align-items:center; text-align:center;
+    background:#fff; position:relative; overflow:hidden;
+  }
+  /* thin wheat frame, inset so it survives a slightly off cut */
+  .card::before{content:""; position:absolute; inset:5mm; border:0.35mm solid var(--palette-wheat); border-radius:2mm; pointer-events:none}
+
+  .brand{display:flex; align-items:center; gap:2.6mm}
+  .brand svg{width:6.2mm; height:9mm; color:var(--palette-ink)}
+  .brand svg .ears{color:var(--palette-wheat)}
+  .brand b{display:block; font-family:var(--display); font-weight:700; font-size:7.4mm; letter-spacing:.02em; line-height:1}
+  .brand span{display:block; font-size:2.5mm; letter-spacing:.32em; text-transform:uppercase; color:var(--palette-earth); margin-top:1.2mm; text-align:start}
+
+  .qr{width:64mm; height:64mm; margin-top:7mm; display:block}
+
+  .scan{margin-top:3.5mm; display:grid; gap:1.4mm}
+  .scan .en{font-family:var(--display); font-weight:600; font-size:5.4mm; line-height:1.15; text-wrap:balance}
+  .scan .fr{font-size:3.4mm; color:var(--palette-earth)}
+  .scan .ar{font-family:var(--arabic); font-size:3.7mm; color:var(--palette-earth); direction:rtl}
+
+  .small{margin-top:auto; font-size:2.7mm; color:var(--palette-earth); line-height:1.5}
+  .small b{color:var(--palette-ink); font-weight:700}
+
+  /* four-up A4: 2 x 2 A6 is exactly 210 x 296 mm, dashed lines show where to cut */
+  html.a4 .sheet{width:210mm}
+  html.a4 .card:nth-child(odd){border-right:0.2mm dashed #B9B0A0}
+  html.a4 .card:nth-child(-n+2){border-bottom:0.2mm dashed #B9B0A0}
+
+  @media screen{
+    body{background:#E8E3D7; padding:24px}
+    .sheet{margin-inline:auto; box-shadow:0 10px 40px rgba(36,31,25,.18)}
+  }
+</style>
+<script>
+  if (/[?&]sheet=a4\b/.test(location.search)){
+    document.documentElement.className = 'a4';
+    document.write('<style>@page{size:210mm 297mm; margin:0}</style>');
+  }
+</script>
+</head>
+<body>
+<div class="sheet">
+  <section class="card">
+    <div class="brand">
+      <svg viewBox="0 0 22 32" fill="none" aria-hidden="true">
+        <path d="M11 31V9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+        <g fill="currentColor" class="ears">
+          <ellipse cx="11" cy="4" rx="2.4" ry="3.6"/>
+          <ellipse cx="6.4" cy="9.5" rx="2.2" ry="3.3" transform="rotate(-28 6.4 9.5)"/>
+          <ellipse cx="15.6" cy="9.5" rx="2.2" ry="3.3" transform="rotate(28 15.6 9.5)"/>
+          <ellipse cx="6.4" cy="16" rx="2.2" ry="3.3" transform="rotate(-28 6.4 16)"/>
+          <ellipse cx="15.6" cy="16" rx="2.2" ry="3.3" transform="rotate(28 15.6 16)"/>
+          <ellipse cx="6.4" cy="22.5" rx="2.2" ry="3.3" transform="rotate(-28 6.4 22.5)"/>
+          <ellipse cx="15.6" cy="22.5" rx="2.2" ry="3.3" transform="rotate(28 15.6 22.5)"/>
+        </g>
+      </svg>
+      <div><b>SONBOL CAFE</b><span>Deir El Ahmar</span></div>
+    </div>
+
+    <img class="qr" src="sonbol-qr.svg" alt="QR code for the Sonbol Cafe website">
+
+    <div class="scan">
+      <div class="en">Scan for our menu &amp; to book a table</div>
+      <div class="fr">Scannez pour la carte et réserver une table</div>
+      <div class="ar" lang="ar">امسحوا الرمز للقائمة وحجز طاولة</div>
+    </div>
+
+    <div class="small"><b>@sonbol.cafe</b> on Instagram<br><span dir="ltr">+961 70 782 071</span> · WhatsApp</div>
+  </section>
+</div>
+<script>
+  if (document.documentElement.className === 'a4'){
+    var sheet = document.querySelector('.sheet'), card = sheet.firstElementChild;
+    for (var i = 0; i < 3; i++) sheet.appendChild(card.cloneNode(true));
+  }
+</script>
+</body>
+</html>
