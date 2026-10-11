@@ -1,12 +1,14 @@
 #!/usr/bin/env python3
 """Make the table QR code (print/sonbol-qr.svg and .png).
 
-Usage:  pip install segno && python3 tools/make_qr.py [URL]
+Usage:  python3 -m venv /tmp/qrenv && /tmp/qrenv/bin/pip install segno
+        /tmp/qrenv/bin/python tools/make_qr.py [URL]
 
 Error correction is level Q: about a quarter of the code can be scratched,
 stained or covered and it still scans. The 4-module white quiet zone around
 it is part of the file; don't crop it when printing.
-If the site moves to its own domain, rerun with the new URL and reprint.
+This writes the QR images only. If the site moves to its own domain, rerun with
+the new URL, then re-export both PDFs from print/table-card.html (see README).
 """
 import sys
 from pathlib import Path
@@ -15,7 +17,7 @@ import segno
 
 URL = sys.argv[1] if len(sys.argv) > 1 else "https://habchydavid.github.io/sonbol-cafe/"
 OUT = Path(__file__).resolve().parent.parent / "print"
-INK = "#241F19"   # brand ink; 15.9:1 against white, as readable to a scanner as black
+INK = "#241F19"   # brand ink; 16.3:1 against white, as readable to a scanner as black
 
 qr = segno.make(URL, error="q", boost_error=False)
 OUT.mkdir(exist_ok=True)

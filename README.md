@@ -38,13 +38,13 @@ Ready to print, in `print/`:
 | `sonbol-table-cards-A4.pdf` | four cards on one A4 sheet with dashed cut lines, for a home/office printer |
 | `sonbol-qr.svg` / `sonbol-qr.png` | the QR code alone, for menus, stickers or Instagram |
 
-Print at **100% / actual size** (not "fit to page") so the code stays 64 mm wide. Keep the white margin around the code; scanners need it.
+Print at **100% / actual size** (not "fit to page"). Check with a ruler: the black square of the code should measure about **51.5 mm** (64 mm including its white margin). Keep the white margin around the code; scanners need it.
 
 The code opens `https://habchydavid.github.io/sonbol-cafe/`. It uses error-correction level Q, so it still scans with roughly a quarter of it scratched or stained. If the site moves to its own domain, regenerate and reprint:
 
 ```
-pip install segno
-python3 tools/make_qr.py https://new-domain.example/
+python3 -m venv /tmp/qrenv && /tmp/qrenv/bin/pip install segno
+/tmp/qrenv/bin/python tools/make_qr.py https://new-domain.example/
 ```
 
-then open `print/table-card.html` (or `print/table-card.html?sheet=a4`) in a browser and print to PDF with no margins.
+This rewrites `print/sonbol-qr.svg` and `.png` only. Then rebuild the two PDFs: open `print/table-card.html` and `print/table-card.html?sheet=a4` in a browser, print each to PDF with no margins and background graphics on, and save them over `print/sonbol-table-card-A6.pdf` and `print/sonbol-table-cards-A4.pdf`. Old printed cards keep pointing at the old address.
