@@ -1,6 +1,6 @@
 # Sonbol Cafe
 
-Website for Sonbol Cafe, Deir El Ahmar (Bekaa, Lebanon).
+Website for Sonbol Cafe, Deir El Ahmar (Bekaa, Lebanon): **https://sonbol.cafe/**
 
 A single static page (`index.html`) with the menu, La Formule set menu, a WhatsApp reservation form, and English / French / Arabic versions. Host it on any static host (e.g. GitHub Pages).
 
@@ -38,13 +38,32 @@ Ready to print, in `print/`:
 | `sonbol-table-cards-A4.pdf` | four cards on one A4 sheet with dashed cut lines, for a home/office printer |
 | `sonbol-qr.svg` / `sonbol-qr.png` | the QR code alone, for menus, stickers or Instagram |
 
-Print at **100% / actual size** (not "fit to page"). Check with a ruler: the black square of the code should measure about **51.5 mm** (64 mm including its white margin). Keep the white margin around the code; scanners need it.
+Print at **100% / actual size** (not "fit to page"). Check with a ruler: the black square of the code should measure about **50 mm** (64 mm including its white margin). Keep the white margin around the code; scanners need it.
 
-The code opens `https://habchydavid.github.io/sonbol-cafe/`. It uses error-correction level Q, so it still scans with roughly a quarter of it scratched or stained. If the site moves to its own domain, regenerate and reprint:
+The code opens `https://sonbol.cafe/`. It uses the highest error-correction level (H), so it still scans with about 30% of it scratched or stained, as long as the three big corner squares are visible. If the address ever changes, regenerate and reprint:
 
 ```
 python3 -m venv /tmp/qrenv && /tmp/qrenv/bin/pip install segno
-/tmp/qrenv/bin/python tools/make_qr.py https://new-domain.example/
+/tmp/qrenv/bin/python tools/make_qr.py https://new-address.example/
 ```
 
 This rewrites `print/sonbol-qr.svg` and `.png` only. Then rebuild the two PDFs: open `print/table-card.html` and `print/table-card.html?sheet=a4` in a browser, print each to PDF with no margins and background graphics on, and save them over `print/sonbol-table-card-A6.pdf` and `print/sonbol-table-cards-A4.pdf`. Old printed cards keep pointing at the old address.
+
+## Domain
+
+`sonbol.cafe` is registered at Porkbun and served by GitHub Pages (repo Settings → Pages → Custom domain). DNS at Porkbun:
+
+| Type | Host | Answer |
+|---|---|---|
+| A | *(blank)* | 185.199.108.153 |
+| A | *(blank)* | 185.199.109.153 |
+| A | *(blank)* | 185.199.110.153 |
+| A | *(blank)* | 185.199.111.153 |
+| AAAA | *(blank)* | 2606:50c0:8000::153 |
+| AAAA | *(blank)* | 2606:50c0:8001::153 |
+| AAAA | *(blank)* | 2606:50c0:8002::153 |
+| AAAA | *(blank)* | 2606:50c0:8003::153 |
+| CNAME | www | habchydavid.github.io |
+| TXT | *(GitHub's verification record)* | *(from GitHub account Settings → Pages)* |
+
+No wildcard (`*`) record: GitHub warns it allows domain takeover. Keep auto-renew on at Porkbun; if the domain lapses, every printed QR code stops working.
