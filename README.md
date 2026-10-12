@@ -30,7 +30,7 @@ It checks every text/background pairing (WCAG AA 4.5:1) and every control border
 
 ## Table QR code
 
-Ready to print, in `print/`:
+In `print/`. **Don't print them until https://sonbol.cafe/ opens on a phone with the padlock** (domain verified, DNS set, custom domain saved, HTTPS on); before that the code leads nowhere. The previous cards for the github.io address are in commit `514f394` (`git show 514f394:print/sonbol-table-card-A6.pdf > old.pdf`).
 
 | File | Use |
 |---|---|
@@ -51,7 +51,15 @@ This rewrites `print/sonbol-qr.svg` and `.png` only. Then rebuild the two PDFs: 
 
 ## Domain
 
-`sonbol.cafe` is registered at Porkbun and served by GitHub Pages (repo Settings → Pages → Custom domain). DNS at Porkbun:
+`sonbol.cafe` is registered at Porkbun and served by GitHub Pages. Set it up in this order (verifying first stops anyone else claiming the domain while DNS points at GitHub; saving the custom domain last keeps the github.io address working until the new one resolves):
+
+1. **Verify on GitHub:** profile picture → Settings → Pages → Add a domain → `sonbol.cafe`. Add the TXT record it shows at Porkbun (Host `_github-pages-challenge-habchydavid`), click Verify. Keep that TXT record forever; deleting it un-verifies the domain.
+2. **Porkbun DNS:** delete Porkbun's default parking records (ALIAS on the bare domain and CNAME on `*`, both pointing to `pixie.porkbun.com`; leave email MX/TXT records), then add the records below. If Porkbun says "a CNAME or ALIAS record with that host already exists", a default record is still there.
+3. **Wait** until https://dnschecker.org/#A/sonbol.cafe shows the 185.199.x.153 addresses.
+4. **Repo Settings → Pages → Custom domain** → `sonbol.cafe` → Save. GitHub commits a `CNAME` file to `main`: `git pull` before the next push, never force-push, never delete `CNAME`.
+5. **Enforce HTTPS** once it can be ticked (up to 24 h). If it still says "Certificate not yet created" after an hour, click Remove next to the domain, type it again and Save.
+
+DNS at Porkbun:
 
 | Type | Host | Answer |
 |---|---|---|
@@ -66,4 +74,4 @@ This rewrites `print/sonbol-qr.svg` and `.png` only. Then rebuild the two PDFs: 
 | CNAME | www | habchydavid.github.io |
 | TXT | *(GitHub's verification record)* | *(from GitHub account Settings → Pages)* |
 
-No wildcard (`*`) record: GitHub warns it allows domain takeover. Keep auto-renew on at Porkbun; if the domain lapses, every printed QR code stops working.
+No wildcard (`*`) record (Porkbun creates one by default; delete it): GitHub warns it allows domain takeover. Keep auto-renew on at Porkbun; if the domain lapses, every printed QR code stops working.
