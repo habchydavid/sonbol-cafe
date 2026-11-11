@@ -650,48 +650,43 @@ html[dir="rtl"] .foot-h{letter-spacing:0; font-family:var(--arabic)}
 
 <script>
 /* ---------- content ---------- */
-/* menu: Mini Sonbol card, prices in USD */
+/* menu: Mini Sonbol card (November 2026), prices in USD */
 var MENU = [
   { id:'salads', t:{en:'Salads',fr:'Salades',ar:'سلطات'},
     items:[
-      {n:{en:'Chicken Caesar',fr:'César au poulet',ar:'سيزر بالدجاج'},p:'8.50'},
-      {n:{en:'Caesar Salad',fr:'Salade César',ar:'سلطة سيزر'},p:'5.50'}
+      {n:{en:'Chicken Caesar',fr:'César au poulet',ar:'سيزر بالدجاج'},p:'9'},
+      {n:{en:'Caesar Salad',fr:'Salade César',ar:'سلطة سيزر'},p:'6'}
     ]},
   { id:'sandwiches', t:{en:'Sandwiches',fr:'Sandwichs',ar:'سندويشات'},
     items:[
+      {n:{en:'Shawarma Djej',fr:'Chawarma poulet',ar:'شاورما دجاج'},p:'5.50'},
+      {n:{en:'Chicken Sub',fr:'Sub au poulet',ar:'سب دجاج'},p:'8.50'},
+      {n:{en:'Chicken Halloumi',fr:'Poulet halloumi',ar:'دجاج وحلوم'},p:'9.50'},
+      {n:{en:'Ham & Cheese (sub)',fr:'Jambon-fromage (sub)',ar:'هام وجبنة (سب)'},p:'6'},
       {n:{en:'Submarine',fr:'Submarine',ar:'سبمارين'},p:'8'},
-      {n:{en:'Ham & Cheese',fr:'Jambon-fromage',ar:'هام وجبنة'},p:'6'},
-      {n:{en:'Halloumi Sandwich',fr:'Sandwich halloumi',ar:'سندويش حلوم'},p:'7.50'},
-      {n:{en:'Riki Sandwich (Chicken bl Aajin)',fr:'Sandwich Riki (poulet bl aajin)',ar:'سندويش ريكي (دجاج بالعجين)'},p:'9'},
-      {n:{en:'Chicken Mexicano',fr:'Poulet mexicano',ar:'دجاج مكسيكانو'},p:'9'},
-      {n:{en:'Tolyene Sandwich',fr:'Sandwich tolyene',ar:'سندويش طلياني'},p:'4'},
-      {n:{en:'Martadella aa Zeytoun',fr:'Mortadelle aux olives',ar:'مرتديلا عالزيتون'},p:'3.50'}
+      {n:{en:'Riki Sandwich (Chicken bl Aajin)',fr:'Sandwich Riki (poulet bl aajin)',ar:'سندويش ريكي (دجاج بالعجين)'},p:'8.50'},
+      {n:{en:'Chicken Mexicano (aajin)',fr:'Poulet mexicano (aajin)',ar:'دجاج مكسيكانو (عجين)'},p:'9'}
     ]},
   { id:'pizza', t:{en:'Pizza',fr:'Pizza',ar:'بيتزا'},
     items:[
-      {n:{en:'Margherita',fr:'Margherita',ar:'مارغريتا'},p:'8'},
-      {n:{en:'Lebanese',fr:'Libanaise',ar:'لبنانية'},p:'10'},
-      {n:{en:'Vegetarian',fr:'Végétarienne',ar:'نباتية'},p:'8.50'},
-      {n:{en:'Pepperoni',fr:'Pepperoni',ar:'بيبروني'},p:'10'}
+      {n:{en:'Chicken BBQ',fr:'Poulet BBQ',ar:'دجاج باربكيو'},p:'11.50'},
+      {n:{en:'Margherita',fr:'Margherita',ar:'مارغريتا'},p:'8.50'},
+      {n:{en:'Lebanese',fr:'Libanaise',ar:'لبنانية'},p:'10.50'},
+      {n:{en:'Vegetarian',fr:'Végétarienne',ar:'نباتية'},p:'9'},
+      {n:{en:'Pepperoni',fr:'Pepperoni',ar:'بيبروني'},p:'10.50'}
+    ]},
+  { id:'burger', t:{en:'Burgers',fr:'Burgers',ar:'برغر'},
+    items:[
+      {n:{en:'Chicken Burger',fr:'Burger au poulet',ar:'برغر دجاج'},p:'7.50'},
+      {n:{en:'Chicken Mozzarella',fr:'Poulet mozzarella',ar:'دجاج موزاريلا'},p:'8.50'}
     ]},
   { id:'appetizers', t:{en:'Appetizers',fr:'Entrées',ar:'مقبلات'},
     items:[
-      {n:{en:'Cheese Nachos',fr:'Nachos au fromage',ar:'ناتشوز بالجبنة'},p:'5.50'}
-    ]},
-  { id:'snacks', t:{en:'Snacks',fr:'Snacks',ar:'تسالي'},
-    items:[
-      {n:{en:'Large Chips',fr:'Chips · grand',ar:'تشيبس كبير'},p:'2'},
-      {n:{en:'Small Chips',fr:'Chips · petit',ar:'تشيبس صغير'},p:'1.50'},
-      {n:{en:'Bzourat',fr:'Bzourat',ar:'بزورات'},p:'2'},
-      {n:{en:'Sticks',fr:'Sticks',ar:'ستيكس'},p:'2'},
-      {n:{en:'Chocolate',fr:'Chocolat',ar:'شوكولا'},p:'2'},
-      {n:{en:'Choco',fr:'Choco',ar:'شوكو'},p:'1'},
-      {n:{en:'Jello',fr:'Gelée',ar:'جيلو'},p:'2.50'},
-      {n:{en:'Custard',fr:'Custard',ar:'كاسترد'},p:'3'}
+      {n:{en:'Cheese Nachos',fr:'Nachos au fromage',ar:'ناتشوز بالجبنة'},p:'6'}
     ]},
   { id:'sweets', t:{en:'Sweets',fr:'Desserts',ar:'حلويات'},
     items:[
-      {n:{en:'Crêpe Nutella',fr:'Crêpe Nutella',ar:'كريب نوتيلا'},p:'5'},
+      {n:{en:'Crêpe Nutella',fr:'Crêpe Nutella',ar:'كريب نوتيلا'},p:'5.50'},
       {n:{en:'Add-on: Nutella / Lotus',fr:'Supplément : Nutella / Lotus',ar:'إضافة: نوتيلا / لوتس'},p:'2'}
     ]},
   { id:'drinks', t:{en:'Drinks',fr:'Boissons',ar:'مشروبات'},
@@ -736,6 +731,17 @@ var MENU = [
       {n:{en:'Marlboro Cigarettes',fr:'Cigarettes Marlboro',ar:'دخان مارلبورو'},p:'3.50'},
       {n:{en:'Cigaretto',fr:'Cigaretto',ar:'سيغاريتو'},p:'2.50'},
       {n:{en:'Ciga (Cedars)',fr:'Ciga (Cedars)',ar:'سيكارة (سيدرز)'},p:'2'}
+    ]},
+  { id:'snacks', t:{en:'Snacks',fr:'Snacks',ar:'تسالي'},
+    items:[
+      {n:{en:'Large Chips',fr:'Chips · grand',ar:'تشيبس كبير'},p:'2'},
+      {n:{en:'Small Chips',fr:'Chips · petit',ar:'تشيبس صغير'},p:'1.50'},
+      {n:{en:'Bzourat',fr:'Bzourat',ar:'بزورات'},p:'2.50'},
+      {n:{en:'Sticks',fr:'Sticks',ar:'ستيكس'},p:'2'},
+      {n:{en:'Chocolate',fr:'Chocolat',ar:'شوكولا'},p:'2'},
+      {n:{en:'Choco',fr:'Choco',ar:'شوكو'},p:'1'},
+      {n:{en:'Jello',fr:'Gelée',ar:'جيلو'},p:'2.50'},
+      {n:{en:'Custard',fr:'Custard',ar:'كاسترد'},p:'3'}
     ]}
 ];
 
